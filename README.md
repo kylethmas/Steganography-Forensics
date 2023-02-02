@@ -1,4 +1,4 @@
-# Steganography-Foresnics
+# Steganography-Forensics
 
 ## Team Members
 1. Rachael Chima Omodanisi
