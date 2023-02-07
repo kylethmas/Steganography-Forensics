@@ -20,24 +20,30 @@ class steganography {
         int height = myPicture.getHeight();
 
         byte[] messageBytes = secretMessage.getBytes(StandardCharsets.UTF_8);
+        int counter = 0;
+        if (messageBytes.length > (width*height)){
+            System.out.print("ERROR: Need larger file size");
+        } else {
+            //write the data to the image
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    int colour = myPicture.getRGB(x,y);
 
-        //write the data to the image
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                int colour = myPicture.getRGB(x,y);
-
-                //Change the LSB of component
-                // COME BACK TOO
-                
-                myPicture.setRGB(x,y, colour);
+                    //Change the LSB of component
+                    // COME BACK TOO
+                    colour |= messageBytes[counter % messageBytes.length];
+                    counter++;
+                    
+                    myPicture.setRGB(x,y, colour);
+                }
             }
-        }
 
-        //save image
-        ByteArrayOutputStream pictureStream = new ByteArrayOutputStream();
-        ImageIO.write(myPicture, "bmp", pictureStream);
-        File outputPicture = new File("encrypted_picture.bmp");
-        ImageIO.write(myPicture, "bmp", outputPicture);
+            //save image
+            ByteArrayOutputStream pictureStream = new ByteArrayOutputStream();
+            ImageIO.write(myPicture, "bmp", pictureStream);
+            File outputPicture = new File("encrypted_picture.bmp");
+            ImageIO.write(myPicture, "bmp", outputPicture);
+        }
 
     }
 }
